@@ -12,7 +12,7 @@ const PatientList: React.FC = () => {
     queryFn: () => authClient.get('/patients/all'),
   });
 
-  const patients: Patient[] = data?.data || [];
+  const patients: Patient[] = useMemo(() => data?.data || [], [data]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [minAge, setMinAge] = useState<number | null>(null);
@@ -130,7 +130,7 @@ const PatientList: React.FC = () => {
               <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id} className="bg-gray-200">
                 {headerGroup.headers.map((column) => (
                   <th
-                  //@ts-expect-error working
+                    //@ts-expect-error working
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     key={column.id}
                     //@ts-expect-error working
