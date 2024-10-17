@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Patient {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  age       Int
+  condition String
+  email     String?
+  phone     String?
+  address   String?
+
+  medicalHistory String?
+  treatmentPlan  String?
+
+  AuthorizationRequest PriorAuthorizationRequest[]
+}
+
+model PriorAuthorizationRequest {
+  id               String              @id @default(auto()) @map("_id") @db.ObjectId
+  patientId        String              @db.ObjectId
+  treatmentDetails String
+  requestStatus    RequestStatusValues
+  labResults       String?
+  insurancePlan    String?
+  dateOfService    DateTime?
+  diagnosisCode    String?
+  doctorNote       String?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id])
+}
+
+enum RequestStatusValues {
+  APPROVED
+  PENDING
+  DENIED
+}
