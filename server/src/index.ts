@@ -15,7 +15,10 @@ const corsOptions: cors.CorsOptions = {
   origin: '*',
 };
 
-app.use(cors(corsOptions));
+app.use(cors({
+  preflightContinue: true,
+  origin: '*',
+}));
 app.use(express.json());
 
 // Routes
