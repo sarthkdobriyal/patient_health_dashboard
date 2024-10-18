@@ -11,20 +11,17 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['*'];
+const allowedOrigin = 'https://patient-health-dashboard-phi.vercel.app';
 
 const corsOptions: cors.CorsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes('*') || !origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // If you're using cookies or authentication headers
+  origin: allowedOrigin,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 };
+
+// Handle OPTIONS requests
+app.options('*', cors(corsOptions));
 
 app.use(cors(corsOptions));
 app.use(express.json());
