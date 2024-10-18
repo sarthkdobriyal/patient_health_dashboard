@@ -11,12 +11,21 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
-app.use(cors());
+// Read allowed origins from environment variable
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+
+const corsOptions: cors.CorsOptions = {
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/patients', patientRoutes)
+app.use('/api/patients', patientRoutes);
 app.use('/api/authorization', authorizationRoutes);
 
 const PORT = process.env.PORT || 5000;
