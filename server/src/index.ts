@@ -11,16 +11,20 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
-const allowedOrigin = '*';
-
 const corsOptions: cors.CorsOptions = {
-  origin: allowedOrigin,
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 
-// Handle OPTIONS requests
-app.options('*', cors(corsOptions));
+// Preflight request handler
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  res.sendStatus(204);
+});
 
 app.use(cors(corsOptions));
 app.use(express.json());
