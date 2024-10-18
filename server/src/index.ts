@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
-// Read allowed origins from environment variable
+
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
 
 const corsOptions: cors.CorsOptions = {
