@@ -11,17 +11,8 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
-const corsOptions: cors.CorsOptions = {
-  origin: '*',
-};
 
-app.use(cors())
-
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization',],
-}));
+app.use(cors({origin: `${process.env.FRONT_URL}`, credentials: true}))
 app.use(express.json());
 
 // Routes
