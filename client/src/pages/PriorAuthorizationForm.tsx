@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { priorAuthSchema, PriorAuthInput } from "../utils/validations";
+
 import { authClient } from "../utils/api-client";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { PriorAuthorizationRequest, PriorAuthorizationRequestSchema } from "../utils/validations";
 
-const submitPriorAuth = async (data: PriorAuthInput) => {
+const submitPriorAuth = async (data: PriorAuthorizationRequest) => {
   const response = await authClient.post("/authorization/create", data);
   return response.data;
 };
@@ -22,8 +23,8 @@ const PriorAuthorizationForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<PriorAuthInput>({
-    resolver: zodResolver(priorAuthSchema),
+  } = useForm<PriorAuthorizationRequest>({
+    resolver: zodResolver(PriorAuthorizationRequestSchema),
     defaultValues: {
       patientId,
     },
@@ -42,12 +43,12 @@ const PriorAuthorizationForm: React.FC = () => {
     },
   });
 
-  const onSubmit = (data: PriorAuthInput) => {
+  const onSubmit = (data: PriorAuthorizationRequest) => {
     mutation.mutate(data);
   };
 
   return (
-    <div className="max-w-md mx-auto mt-5  flex flex-col justify-center h-full w-full">
+    <div className="max-w-md mx-auto mt-5 flex flex-col justify-center h-full w-full">
       <div className="flex gap-x-3 items-center mb-5 py-3">
         <button onClick={() => navigate(`/patient/${patientId}`)} className="text-4xl mr-2">
           <ArrowLeft />

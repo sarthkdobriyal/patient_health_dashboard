@@ -10,7 +10,20 @@ export const signupSchema = loginSchema.extend({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
 });
 
-export const priorAuthSchema = z.object({
+
+export const PatientSchema = z.object({
+  name: z.string(),
+  age: z.number().int().positive(),
+  condition: z.string(),
+  email: z.string().email().optional(),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+  medicalHistory: z.string().optional(),
+  treatmentPlan: z.string().optional(),
+});
+
+
+export const PriorAuthorizationRequestSchema = z.object({
   patientId: z.string().min(1, 'Patient ID is required'),
   treatmentDetails: z.string().min(1, 'Treatment Details are required'),
   requestStatus: z.enum(['APPROVED', 'PENDING', 'DENIED']),
@@ -21,7 +34,9 @@ export const priorAuthSchema = z.object({
   doctorNote: z.string().optional(),
 });
 
-export type PriorAuthInput = z.infer<typeof priorAuthSchema>;
+
+export type PatientInput = z.infer<typeof PatientSchema>;
+export type PriorAuthorizationRequest = z.infer<typeof PriorAuthorizationRequestSchema>;
 
 
 export type LoginInput = z.infer<typeof loginSchema>;

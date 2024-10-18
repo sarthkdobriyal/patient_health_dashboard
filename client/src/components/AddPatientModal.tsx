@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { authClient } from '../utils/api-client';
-import { PatientSchema, PatientInput } from '../../../server/src/utils/validation';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { PatientInput, PatientSchema } from '../utils/validations';
+
 
 
 
