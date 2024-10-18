@@ -2,8 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 
 export const unauthClient: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
-  withCredentials:false
+  baseURL: import.meta.env.VITE_SERVER_URL
 });
 
 
